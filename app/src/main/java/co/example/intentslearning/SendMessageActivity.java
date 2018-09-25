@@ -10,6 +10,7 @@ import android.widget.EditText;
 public class SendMessageActivity extends AppCompatActivity {
     private EditText editTextMessage;
     private Button buttonSendMessage;
+    private Button buttonShare;
 
     public static final String EXTRA_SENT_MESSAGE = "the message";
     @Override
@@ -17,7 +18,8 @@ public class SendMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
         wireWidgets();
-        buttonSendMessage.setOnClickListener(new View.OnClickListener() {
+        buttonSendMessage.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 //get the text from the editText
@@ -31,10 +33,26 @@ public class SendMessageActivity extends AppCompatActivity {
                 startActivity(intentSendMessage);
             }
         });
+        buttonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //MAKE AN INTENT WITH DESIRED ACTION
+                Intent intentShare = new Intent(Intent.ACTION_SEND);
+                //set the data type of the stuff we're packing away
+                //cam look up the type you need in the internet
+                intentShare.setType("text/plain");
+                //put the extra with the message
+                intentShare.putExtra(EXTRA_SENT_MESSAGE,editTextMessage.getText().toString());
+                startActivity(intentShare);
+
+
+            }
+        });
     }
 
     private void wireWidgets() {
         editTextMessage= findViewById(R.id.editText_sendmessage_msg);
         buttonSendMessage= findViewById(R.id.button_sendmessage_send);
+        buttonShare = findViewById(R.id.button_send_message_sharebutton);
     }
 }
